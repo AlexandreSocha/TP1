@@ -14,18 +14,30 @@ import java.io.CharArrayWriter;
 
 public class MainActivity extends AppCompatActivity {
 
-    private EditText editText;
     private Button buttonStart;
     private Button buttonFinish;
+    private EditText editText;
+
+    // solution 1
+    int numero;
+
+    // solution 2
+    static int num = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
         editText = findViewById(R.id.main_edittext);
         buttonStart = findViewById(R.id.main_button_start);
         buttonFinish = findViewById(R.id.main_button_finish);
+
+        // solution 1
+        numero = getIntent().getIntExtra("data", 0);
+        editText.append("\n onCreate " + numero);
+
+        // solution 2
+        //editText.append("\n onCreate " + num);
     }
 
     public void onClickStart(View v){
@@ -36,8 +48,15 @@ public class MainActivity extends AppCompatActivity {
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
                         dialog.dismiss();
-                        Intent intent = new Intent(MainActivity.this,MainActivity.class);  // crétaion d'une autre activité avec le même code
+                        Intent intent = new Intent(MainActivity.this,MainActivity.class);
+
+                        // solution 1
+                        intent.putExtra("data", ++numero);
                         startActivity(intent);
+
+                        // solution 2
+                        //num++;
+                        //startActivity(intent);
                     }
                 });
 
@@ -57,7 +76,31 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        this.editText.append("onStart\n");
+        this.editText.append("\n onStart");
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        this.editText.append("\n onResume");
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        this.editText.append("\n onRestart");
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        this.editText.append("\n onPause");
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        this.editText.append("\n onStop");
     }
 
 
